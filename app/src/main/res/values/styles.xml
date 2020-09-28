@@ -7,8 +7,6 @@
         <item name="colorAccent">@color/colorAccent</item>
 
     </style>
-    <style name="inicio_sesion">
-        <item name="android:button">@color/color_btn_iniciar_sesion</item>
-        <item name="android:textColor">@color/color_letra_btn_inicio_sesion</item>
-    </style>
+
+
 </resources>
