@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "982832319167",
+    "firebase_url": "https://social-gaming-a39ef.firebaseio.com",
+    "project_id": "social-gaming-a39ef",
+    "storage_bucket": "social-gaming-a39ef.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:982832319167:android:bd78a1ac8876c0d950140a",
+        "android_client_info": {
+          "package_name": "com.example.social_gaming"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "982832319167-j3vu5vsv82ofdektgt9d9tnqaoo0fd59.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.social_gaming",
+            "certificate_hash": "20b431e70ec70387ce12f6bab36919e925c1e305"
+          }
+        },
+        {
+          "client_id": "982832319167-9dl2513lc5ia7rrti3qpoe9c2afcppfe.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA_2wTvusrog3ttuDo4QjRImTXnYcrakFM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "982832319167-9dl2513lc5ia7rrti3qpoe9c2afcppfe.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
