@@ -34,7 +34,7 @@
                 android:textColor="@color/white"
                 android:gravity="center"
                 android:textStyle="bold"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="20dp"
                 android:textSize="22dp" />
 
             <ImageView
@@ -67,6 +67,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_user_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nombre de usuario"
@@ -99,6 +100,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_email_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Correo electronico"
@@ -130,6 +132,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_password_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Contraseña"
@@ -162,6 +165,7 @@
                 >
 
                 <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/txt_conf_password_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Confirmar Contraseña"
@@ -178,6 +182,7 @@
 
 
     <Button
+        android:id="@+id/btn_register"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="REGISTRASE"
@@ -186,6 +191,17 @@
         android:layout_gravity="bottom"
         android:textColor="@color/white"
         android:layout_margin="20dp"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/btn_back"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/atras"
+        app:civ_circle_background_color="@color/black"
+        android:layout_margin="15dp"
+        />
+
+
 
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
