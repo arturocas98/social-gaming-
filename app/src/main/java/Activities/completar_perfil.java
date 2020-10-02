@@ -19,12 +19,16 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import Models.User;
+import Providers.AuthProvider;
+import Providers.UserProvider;
+
 public class completar_perfil extends AppCompatActivity {
 
     TextInputEditText mTextInputUsername;
     Button mButtonRegister;
-    FirebaseAuth mAuth;
-    FirebaseFirestore mFirestore;
+    AuthProvider auth;
+    UserProvider db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,8 +38,8 @@ public class completar_perfil extends AppCompatActivity {
         mTextInputUsername = findViewById(R.id.textInputUsername);
         mButtonRegister = findViewById(R.id.btnRegister);
 
-        mAuth = FirebaseAuth.getInstance();
-        mFirestore = FirebaseFirestore.getInstance();
+        auth = new AuthProvider();
+        db = new UserProvider();
 
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -57,10 +61,11 @@ public class completar_perfil extends AppCompatActivity {
     }
 
     private void updateUser(final String username) {
-        String id = mAuth.getCurrentUser().getUid();
-        Map<String, Object> map = new HashMap<>();
-        map.put("username", username);
-        mFirestore.collection("Users").document(id).update(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+        String id = auth.getUid();
+        User user = new User();
+        user.setUsername(username);
+        user.setId(id);
+        db.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
                 if (task.isSuccessful()) {

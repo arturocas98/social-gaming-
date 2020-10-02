@@ -89,7 +89,8 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-    //Login con correo y contraseña
+
+    //Login con correo y contraseña normal
     private void login(){
         String email = txt_email.getText().toString();
         String password = txt_password.getText().toString();
@@ -109,11 +110,13 @@ public class MainActivity extends AppCompatActivity {
         Log.d("campos","password:"+password);
     }
 
+    //Aqui se abre una ventana donde google le pregunta con que cuenta desea registrarse
     private void signInGoogle(){
         Intent signIn = authGoogle.getSignInIntent();
         startActivityForResult(signIn,REQUEST_CODE_GOOGLE);
     }
 
+    //Metodo sobreescrito donde aqui se hace la verificacion de la cuenta de google q selecciona el usuario
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -135,7 +138,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
-
+    //Metodo para que una vez verificada la cuenta de google se autentifique con firebase donde recibe por parametro una cta de google
     private void firebaseAuthWithGoogle(GoogleSignInAccount googleSignInAccount) {
         // [START_EXCLUDE silent]
 
@@ -162,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
     }
-
+    //verificamos si el usuario registrado con google ya existe en la bd caso contrario lo crea
     private void checkUserExist(final String id) {
         db.getUser(id).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override

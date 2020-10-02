@@ -21,6 +21,9 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import Models.User;
+import Providers.AuthProvider;
+import Providers.UserProvider;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class register extends AppCompatActivity {
@@ -30,8 +33,8 @@ public class register extends AppCompatActivity {
     TextInputEditText txt_password_reg;
     TextInputEditText txt_conf_password_reg;
     Button btn_register;
-    FirebaseAuth auth;
-    FirebaseFirestore db;
+    AuthProvider auth;
+    UserProvider db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,8 +45,8 @@ public class register extends AppCompatActivity {
         txt_password_reg = findViewById(R.id.txt_password_reg);
         txt_conf_password_reg =findViewById(R.id.txt_conf_password_reg);
         btn_register = findViewById(R.id.btn_register);
-        auth=FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        auth= new AuthProvider();
+        db = new UserProvider();
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -84,7 +87,7 @@ public class register extends AppCompatActivity {
             Toast.makeText(this,"Llene todos los campos para registrarse",Toast.LENGTH_SHORT).show();
         }
     }
-
+    //metodo para validar email
     public boolean isEmailValid(String email) {
         String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
         Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
@@ -93,19 +96,21 @@ public class register extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private void createUser(final String user,final String email, final String password){
-        auth.createUserWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+    private void createUser(final String username,final String email, final String password){
+        //se crea el usuario en firebase authentication
+        auth.create(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
                     //getUid obtendra el id del usuario q se registro en firebase
-                    String id =  auth.getCurrentUser().getUid();
-                    Map<String,Object> map = new HashMap<>();
-                    //para acceder al email se debe poner como final el parametro de email
-                    map.put("email",email);
-                    map.put("username",user);
-                    //creacion de la coleccion usuario en firestore
-                    db.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    String id =  auth.getUid();
+
+                    User user = new User();
+                    user.setId(id);
+                    user.setEmail(email);
+                    user.setUsername(username);
+                    //se crea el usuario en firestore
+                    db.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
