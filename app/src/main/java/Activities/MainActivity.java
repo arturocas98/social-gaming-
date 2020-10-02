@@ -1,4 +1,4 @@
-package com.example.social_gaming;
+package Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.social_gaming.R;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -31,16 +32,20 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import java.util.HashMap;
 import java.util.Map;
 
+import Models.User;
+import Providers.AuthProvider;
+import Providers.UserProvider;
+
 public class MainActivity extends AppCompatActivity {
     TextView go_register;
     TextInputEditText txt_email;
     TextInputEditText txt_password;
     Button btn_login;
-    FirebaseAuth auth;
+    AuthProvider auth;
     private GoogleSignInClient authGoogle;
     private final int REQUEST_CODE_GOOGLE=1;
     SignInButton btn_google;
-    FirebaseFirestore db;
+    UserProvider db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,8 +54,8 @@ public class MainActivity extends AppCompatActivity {
         txt_email = findViewById(R.id.txt_email);
         txt_password = findViewById(R.id.txt_password);
         btn_login = findViewById(R.id.btn_login);
-        auth = FirebaseAuth.getInstance();
-        db = FirebaseFirestore.getInstance();
+        auth = new AuthProvider();
+        db = new UserProvider();
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -84,11 +89,11 @@ public class MainActivity extends AppCompatActivity {
         });
 
     }
-
+    //Login con correo y contraseña
     private void login(){
         String email = txt_email.getText().toString();
         String password = txt_password.getText().toString();
-        auth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+        auth.login(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if (task.isSuccessful()){
@@ -120,7 +125,7 @@ public class MainActivity extends AppCompatActivity {
                 // Google Sign In was successful, authenticate with Firebase
                 GoogleSignInAccount account = task.getResult(ApiException.class);
                 Log.d("SUCCESS", "firebaseAuthWithGoogle:" + account.getId());
-                firebaseAuthWithGoogle(account.getIdToken());
+                firebaseAuthWithGoogle(account);
             } catch (ApiException e) {
                 // Google Sign In failed, update UI appropriately
                 Log.w("ERROR", "Google sign in failed", e);
@@ -131,17 +136,17 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void firebaseAuthWithGoogle(String idToken) {
+    private void firebaseAuthWithGoogle(GoogleSignInAccount googleSignInAccount) {
         // [START_EXCLUDE silent]
 
         // [END_EXCLUDE]
-        AuthCredential credential = GoogleAuthProvider.getCredential(idToken, null);
-        auth.signInWithCredential(credential)
+
+        auth.googleLogin(googleSignInAccount)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            String id = auth.getCurrentUser().getUid();
+                            String id = auth.getUid();
                             checkUserExist(id);
                             // Sign in success, update UI with the signed-in user's information
 
@@ -159,17 +164,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void checkUserExist(final String id) {
-        db.collection("Users").document(id).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        db.getUser(id).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){
                     Intent intent = new Intent(MainActivity.this,home.class);
                     startActivity(intent);
                 }else{
-                    String email = auth.getCurrentUser().getEmail();
-                    Map<String,Object > map = new HashMap<>();
-                    map.put("email",email);
-                    db.collection("Users").document(id).set(map).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    String email = auth.getEmail();
+                    User user = new User();
+                    user.setEmail(email);
+                    user.setId(id);
+                    db.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){

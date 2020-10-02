@@ -1,8 +1,10 @@
-package com.example.social_gaming;
+package Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+
+import com.example.social_gaming.R;
 
 public class home extends AppCompatActivity {
 
