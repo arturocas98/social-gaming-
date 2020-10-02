@@ -11,7 +11,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name=".home"></activity>
+        <activity android:name=".completar_perfil"></activity>
+        <activity android:name=".home" />
         <activity android:name=".register" />
         <activity android:name=".MainActivity">
             <intent-filter>

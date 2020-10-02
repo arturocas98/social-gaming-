@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
                             if (task.isSuccessful()){
-                                Intent intent = new Intent(MainActivity.this,home.class);
+                                Intent intent = new Intent(MainActivity.this,completar_perfil.class);
                                 startActivity(intent);
                             }else{
                                 Toast.makeText(MainActivity.this,"No se pudo almacenar la información del usuario",Toast.LENGTH_SHORT).show();
