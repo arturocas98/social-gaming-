@@ -146,6 +146,7 @@
         </LinearLayout>
 
         <TextView
+            android:id="@+id/txt_categoria"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="CATEGORIAS"
@@ -187,6 +188,7 @@
                     >
 
                     <ImageView
+                        android:id="@+id/image_view_pc"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_pc" />
@@ -220,6 +222,7 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/image_view_ps4"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_ps4" />
@@ -253,6 +256,7 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/image_view_xbox"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_xbox"
@@ -287,6 +291,7 @@
                     app:cardElevation="10dp">
 
                     <ImageView
+                        android:id="@+id/image_view_nintendo"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:src="@drawable/icon_nintendo" />
