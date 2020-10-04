@@ -3,6 +3,8 @@ package Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -25,6 +27,7 @@ import Models.User;
 import Providers.AuthProvider;
 import Providers.UserProvider;
 import de.hdodenhof.circleimageview.CircleImageView;
+import dmax.dialog.SpotsDialog;
 
 public class register extends AppCompatActivity {
     CircleImageView btn_back ;
@@ -35,6 +38,7 @@ public class register extends AppCompatActivity {
     Button btn_register;
     AuthProvider auth;
     UserProvider db;
+    AlertDialog loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,6 +51,8 @@ public class register extends AppCompatActivity {
         btn_register = findViewById(R.id.btn_register);
         auth= new AuthProvider();
         db = new UserProvider();
+        loading = new SpotsDialog.Builder().setContext(this).setMessage("Espere un momento").setCancelable(false).build();
+
 
         btn_register.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +104,7 @@ public class register extends AppCompatActivity {
 
     private void createUser(final String username,final String email, final String password){
         //se crea el usuario en firebase authentication
+        loading.show();
         auth.create(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
@@ -113,8 +120,13 @@ public class register extends AppCompatActivity {
                     db.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            loading.dismiss();
                             if (task.isSuccessful()){
-                                Toast.makeText(register.this,"El usuario se almaceno correctamente",Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(register.this, home.class);
+                                //Cuando el usuario de click hacia atras se van a limpiar el historial de pantallas
+                                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(intent);
                             }else{
                                 Toast.makeText(register.this,"El usuario no se pudo almacenar",Toast.LENGTH_SHORT).show();
                             }
@@ -122,6 +134,7 @@ public class register extends AppCompatActivity {
                     });
 
                 }else{
+                    loading.dismiss();
                     Toast.makeText(register.this,"No se pudo registrar el usuario",Toast.LENGTH_SHORT).show();
                 }
             }

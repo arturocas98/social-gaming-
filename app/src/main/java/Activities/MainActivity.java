@@ -3,6 +3,7 @@ package Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -35,6 +36,7 @@ import java.util.Map;
 import Models.User;
 import Providers.AuthProvider;
 import Providers.UserProvider;
+import dmax.dialog.SpotsDialog;
 
 public class MainActivity extends AppCompatActivity {
     TextView go_register;
@@ -46,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     private final int REQUEST_CODE_GOOGLE=1;
     SignInButton btn_google;
     UserProvider db;
+    AlertDialog loading;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +59,7 @@ public class MainActivity extends AppCompatActivity {
         btn_login = findViewById(R.id.btn_login);
         auth = new AuthProvider();
         db = new UserProvider();
+        loading = new SpotsDialog.Builder().setContext(this).setMessage("Espere un momento").setCancelable(false).build();
 
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -94,9 +98,11 @@ public class MainActivity extends AppCompatActivity {
     private void login(){
         String email = txt_email.getText().toString();
         String password = txt_password.getText().toString();
+        loading.show();
         auth.login(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
+                loading.dismiss();
                 if (task.isSuccessful()){
                     Intent intent = new Intent(MainActivity.this,home.class);
                     startActivity(intent);
@@ -143,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
         // [START_EXCLUDE silent]
 
         // [END_EXCLUDE]
-
+        loading.show();
         auth.googleLogin(googleSignInAccount)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -155,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
                         } else {
                             // If sign in fails, display a message to the user.
+                            loading.dismiss();
                             Toast.makeText(MainActivity.this,"No se pudo iniciar sesión con google",Toast.LENGTH_SHORT).show();
                             Log.w("ERROR", "signInWithCredential:failure", task.getException());
 
@@ -171,6 +178,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 if (documentSnapshot.exists()){
+                    loading.dismiss();
                     Intent intent = new Intent(MainActivity.this,home.class);
                     startActivity(intent);
                 }else{
@@ -181,6 +189,7 @@ public class MainActivity extends AppCompatActivity {
                     db.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override
                         public void onComplete(@NonNull Task<Void> task) {
+                            loading.dismiss();
                             if (task.isSuccessful()){
                                 Intent intent = new Intent(MainActivity.this,completar_perfil.class);
                                 startActivity(intent);

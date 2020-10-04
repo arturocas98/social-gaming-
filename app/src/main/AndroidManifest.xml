@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.social_gaming">
-
+    //PERMISO PARA QUE LA APP SE CONECTE AL WEB SERVICE
     <uses-permission android:name="android.permission.INTERNET" />
+    //PERMISO PARA QUE SE PUEDA LEER UN ARCHIVO FUERA DE LA APP
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -11,7 +13,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.NoActionBar">
-        <activity android:name="Activities.completar_perfil"></activity>
+        <activity android:name="Activities.post"></activity>
+        <activity android:name="Activities.completar_perfil" />
         <activity android:name="Activities.home" />
         <activity android:name="Activities.register" />
         <activity android:name="Activities.MainActivity">

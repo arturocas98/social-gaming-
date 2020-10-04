@@ -3,6 +3,7 @@ package Activities;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -22,6 +23,7 @@ import java.util.Map;
 import Models.User;
 import Providers.AuthProvider;
 import Providers.UserProvider;
+import dmax.dialog.SpotsDialog;
 
 public class completar_perfil extends AppCompatActivity {
 
@@ -29,6 +31,7 @@ public class completar_perfil extends AppCompatActivity {
     Button mButtonRegister;
     AuthProvider auth;
     UserProvider db;
+    AlertDialog loading;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +43,7 @@ public class completar_perfil extends AppCompatActivity {
 
         auth = new AuthProvider();
         db = new UserProvider();
-
+        loading = new SpotsDialog.Builder().setContext(this).setMessage("Espere un momento").setCancelable(false).build();
         mButtonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -65,9 +68,11 @@ public class completar_perfil extends AppCompatActivity {
         User user = new User();
         user.setUsername(username);
         user.setId(id);
+        loading.show();
         db.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
+                loading.dismiss();
                 if (task.isSuccessful()) {
                     Intent intent = new Intent(completar_perfil.this, home.class);
                     startActivity(intent);
