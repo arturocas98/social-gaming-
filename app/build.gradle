@@ -43,6 +43,8 @@ dependencies {
     implementation 'com.google.firebase:firebase-storage:19.1.1'// firebase storage
     implementation 'id.zelory:compressor:2.1.0' //dependencia para comprimir imagenes
     implementation 'com.squareup.picasso:picasso:2.5.2'//dependencia para mostrar las imagenes
+    implementation 'com.firebaseui:firebase-ui-firestore:6.3.0' // nos va a permitir listar la data de firebase
+
 
 }
 

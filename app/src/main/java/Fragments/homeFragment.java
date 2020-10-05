@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,11 +18,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.social_gaming.R;
+import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.Query;
 
 import Activities.MainActivity;
 import Activities.post;
+import Models.Post;
 import Providers.AuthProvider;
+import Providers.PostProvider;
+import adapters.PostsAdapter;
 
 
 public class homeFragment extends Fragment {
@@ -29,6 +36,10 @@ public class homeFragment extends Fragment {
     FloatingActionButton floatingActionButton;
     Toolbar mToolbar;
     AuthProvider auth;
+    RecyclerView mRecyclerView;
+    PostProvider mPostProvider;
+    PostsAdapter mPostsAdapter;
+
 
     public homeFragment() {
         // Required empty public constructor
@@ -53,14 +64,44 @@ public class homeFragment extends Fragment {
             }
         });
         auth = new AuthProvider();
+        mRecyclerView = view.findViewById(R.id.recyclerViewHome);
+        // el linear nos va a poner las cardaview una debajo de otra
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
+        mRecyclerView.setLayoutManager(linearLayoutManager);
+        mPostProvider = new PostProvider();
 
         return view;
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getAllPost();
+    }
+    private void getAllPost() {
+        Query query = mPostProvider.getAll();
+        FirestoreRecyclerOptions<Post> options =
+                new FirestoreRecyclerOptions.Builder<Post>()
+                        .setQuery(query, Post.class)
+                        .build();
+        mPostsAdapter = new PostsAdapter(options, getContext());
+        //mPostsAdapter.notifyDataSetChanged();
+        mRecyclerView.setAdapter(mPostsAdapter);
+        mPostsAdapter.startListening();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mPostsAdapter.stopListening();
     }
 
     private void goToPost() {
         Intent intent = new Intent(getContext(), post.class);
         startActivity(intent);
     }
+
+
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
