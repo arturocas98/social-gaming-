@@ -47,7 +47,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="correo electronico"
-                    android:theme="@style/textColorWhite"
+                    android:theme="@style/EditTextWhite"
                     android:textColorHint="@color/white"
                     android:inputType="textEmailAddress"/>
             </com.google.android.material.textfield.TextInputLayout>
@@ -84,7 +84,7 @@
                         android:id="@+id/txt_password"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:theme="@style/textColorWhite"
+                        android:theme="@style/EditTextWhite"
                         android:textColorHint="@color/white"
                         android:hint="contraseña"
                         android:inputType="textPassword"/>

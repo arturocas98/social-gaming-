@@ -22,4 +22,11 @@ public class PostProvider {
     public Query getAll() {
         return collection.orderBy("title", Query.Direction.DESCENDING);
     }
+
+    public Query getPostByUser(String id) {
+        return collection.whereEqualTo("user_id", id);
+    }
+    public Task<Void> delete(String id) {
+        return collection.document(id).delete();
+    }
 }

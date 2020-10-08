@@ -5,8 +5,8 @@
     <uses-feature
         android:name="android.hardware.camera2"
         android:required="false" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <application
@@ -15,8 +15,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.AppCompat.NoActionBar">
-
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
+        <activity android:name="Activities.edit_profile"></activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"
@@ -28,7 +28,7 @@
                 android:resource="@xml/file_paths" />
         </provider>
 
-        <activity android:name="Activities.post"></activity>
+        <activity android:name="Activities.post" />
         <activity android:name="Activities.completar_perfil" />
         <activity android:name="Activities.home" />
         <activity android:name="Activities.register" />

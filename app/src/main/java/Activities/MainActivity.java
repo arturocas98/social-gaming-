@@ -105,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
                 loading.dismiss();
                 if (task.isSuccessful()){
                     Intent intent = new Intent(MainActivity.this,home.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
                     startActivity(intent);
                     Toast.makeText(MainActivity.this,"Login correcto",Toast.LENGTH_SHORT).show();
                 }else{

@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.regex.Matcher;
@@ -35,6 +36,7 @@ public class register extends AppCompatActivity {
     TextInputEditText txt_email_reg;
     TextInputEditText txt_password_reg;
     TextInputEditText txt_conf_password_reg;
+    TextInputEditText txt_phone;
     Button btn_register;
     AuthProvider auth;
     UserProvider db;
@@ -47,6 +49,7 @@ public class register extends AppCompatActivity {
         txt_user = findViewById(R.id.txt_user_reg);
         txt_email_reg = findViewById(R.id.txt_email_reg);
         txt_password_reg = findViewById(R.id.txt_password_reg);
+        txt_phone = findViewById(R.id.txt_phone_reg);
         txt_conf_password_reg =findViewById(R.id.txt_conf_password_reg);
         btn_register = findViewById(R.id.btn_register);
         auth= new AuthProvider();
@@ -74,11 +77,12 @@ public class register extends AppCompatActivity {
         String email = txt_email_reg.getText().toString();
         String password = txt_password_reg.getText().toString();
         String con_password = txt_conf_password_reg.getText().toString();
-        if (!user.isEmpty() && !email.isEmpty() && !password.isEmpty() && !con_password.isEmpty()){
+        String phone = txt_phone.getText().toString();
+        if (!user.isEmpty() && !email.isEmpty() && !password.isEmpty() && !con_password.isEmpty() &&  !phone.isEmpty()){
             if (isEmailValid(email)){
                 if (password.equals(con_password)){
                     if (password.length()>=6){
-                        createUser(user,email,password);
+                        createUser(user,email,password,phone);
                     }else{
                         Toast.makeText(this,"La contraseña debe tener al menos 6 caracteres",Toast.LENGTH_SHORT).show();
                     }
@@ -102,7 +106,7 @@ public class register extends AppCompatActivity {
         return matcher.matches();
     }
 
-    private void createUser(final String username,final String email, final String password){
+    private void createUser(final String username,final String email, final String password,final String phone){
         //se crea el usuario en firebase authentication
         loading.show();
         auth.create(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -116,6 +120,8 @@ public class register extends AppCompatActivity {
                     user.setId(id);
                     user.setEmail(email);
                     user.setUsername(username);
+                    user.setPhone(phone);
+                    user.setTimestamp(new Date().getTime());
                     //se crea el usuario en firestore
                     db.create(user).addOnCompleteListener(new OnCompleteListener<Void>() {
                         @Override

@@ -233,8 +233,8 @@ public class post extends AppCompatActivity {
                                                 post.setTitle(title.toLowerCase());
                                                 post.setDescription(description);
                                                 post.setCategory(category);
-                                                post.setId(auth.getUid());
-                                                //post.setTimestamp(new Date().getTime());
+                                                post.setUser_id(auth.getUid());
+                                                post.setTimestamp(new Date().getTime());
                                                 postProvider.save(post).addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> taskSave) {

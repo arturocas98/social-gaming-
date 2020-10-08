@@ -17,6 +17,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +29,7 @@ import dmax.dialog.SpotsDialog;
 public class completar_perfil extends AppCompatActivity {
 
     TextInputEditText mTextInputUsername;
+    TextInputEditText mTextInputphone;
     Button mButtonRegister;
     AuthProvider auth;
     UserProvider db;
@@ -39,6 +41,7 @@ public class completar_perfil extends AppCompatActivity {
         setContentView(R.layout.activity_completar_perfil);
 
         mTextInputUsername = findViewById(R.id.textInputUsername);
+        mTextInputphone = findViewById(R.id.txt_phone_complete);
         mButtonRegister = findViewById(R.id.btnRegister);
 
         auth = new AuthProvider();
@@ -55,18 +58,21 @@ public class completar_perfil extends AppCompatActivity {
 
     private void register() {
         String username = mTextInputUsername.getText().toString();
-        if (!username.isEmpty()) {
-            updateUser(username);
+        String phone = mTextInputphone.getText().toString();
+        if (!username.isEmpty()  && !phone.isEmpty() ) {
+            updateUser(username,phone);
         }
         else {
             Toast.makeText(this, "Para continuar inserta todos los campos", Toast.LENGTH_SHORT).show();
         }
     }
 
-    private void updateUser(final String username) {
+    private void updateUser(final String username,final String phone) {
         String id = auth.getUid();
         User user = new User();
         user.setUsername(username);
+        user.setPhone(phone);
+        user.setTimestamp(new Date().getTime());
         user.setId(id);
         loading.show();
         db.update(user).addOnCompleteListener(new OnCompleteListener<Void>() {
