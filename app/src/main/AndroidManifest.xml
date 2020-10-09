@@ -16,7 +16,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name="Activities.edit_profile"></activity>
+        <activity android:name="Activities.acerca_de"></activity>
+        <activity
+            android:name="Activities.filters"
+            android:parentActivityName="Activities.home" />
+        <activity android:name="Activities.configuracion" />
+        <activity android:name="Activities.edit_profile" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

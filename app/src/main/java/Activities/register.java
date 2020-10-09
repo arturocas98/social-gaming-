@@ -4,7 +4,9 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -44,6 +46,7 @@ public class register extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        cargarPreferencias_design();
         setContentView(R.layout.activity_register);
         btn_back = findViewById(R.id.btn_back);
         txt_user = findViewById(R.id.txt_user_reg);
@@ -70,6 +73,16 @@ public class register extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void cargarPreferencias_design(){
+        SharedPreferences preferences = getSharedPreferences("preferencias", Context.MODE_PRIVATE);
+        int background = preferences.getInt("design",0);
+        if (background ==1){
+            setTheme(R.style.Theme_AppCompat_NoActionBar);
+        }else{
+            setTheme(R.style.Theme_AppCompat_Light_NoActionBar);
+        }
     }
 
     private void register(){
@@ -115,7 +128,6 @@ public class register extends AppCompatActivity {
                 if (task.isSuccessful()){
                     //getUid obtendra el id del usuario q se registro en firebase
                     String id =  auth.getUid();
-
                     User user = new User();
                     user.setId(id);
                     user.setEmail(email);
@@ -138,7 +150,6 @@ public class register extends AppCompatActivity {
                             }
                         }
                     });
-
                 }else{
                     loading.dismiss();
                     Toast.makeText(register.this,"No se pudo registrar el usuario",Toast.LENGTH_SHORT).show();

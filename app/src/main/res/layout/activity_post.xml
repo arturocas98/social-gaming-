@@ -23,7 +23,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
-                android:text="CREAR PUBLICACIÓN"
+                android:text="@string/crear_post"
                 android:textColor="@color/white"
                 android:textSize="18dp"
                 android:layout_marginTop="23dp"/>

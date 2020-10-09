@@ -37,6 +37,17 @@ public class AuthProvider {
             return null;
         }
     }
+
+
+    public String getNombre() {
+        if (mAuth.getCurrentUser() != null) {
+            return mAuth.getCurrentUser().getDisplayName();
+        }
+        else {
+            return null;
+        }
+    }
+
     //Obtener el id del usuario registrado en firebase
     public String getUid() {
         if (mAuth.getCurrentUser() != null) {

@@ -62,7 +62,7 @@
                     android:id="@+id/textInputUsername"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de usuario"
+                    android:hint="@string/username"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -95,7 +95,7 @@
                     android:id="@+id/textInputPhone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Telefono"
+                    android:hint="@string/telefono"
                     android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -111,7 +111,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rounded_button"
         android:backgroundTint="@color/colorAccent"
-        android:text="ACTUALIZAR"
+        android:text="@string/actualizar"
         android:textColor="@color/white"
         android:layout_gravity="bottom"
         android:layout_margin="20dp" />

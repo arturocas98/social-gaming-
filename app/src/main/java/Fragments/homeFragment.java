@@ -1,6 +1,8 @@
 package Fragments;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -16,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.social_gaming.R;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -23,6 +26,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.Query;
 
 import Activities.MainActivity;
+import Activities.acerca_de;
+import Activities.configuracion;
 import Activities.post;
 import Models.Post;
 import Providers.AuthProvider;
@@ -73,6 +78,8 @@ public class homeFragment extends Fragment {
         return view;
     }
 
+
+
     @Override
     public void onStart() {
         super.onStart();
@@ -111,17 +118,36 @@ public class homeFragment extends Fragment {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if(item.getItemId() == R.id.itemLogout){
+       /* if(item.getItemId() == R.id.itemLogout){
             logout();
+        }*/
+        switch (item.getItemId()){
+
+            case R.id.itemConf :
+                Intent i =  new Intent(getContext(), configuracion.class);
+                //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK );
+                startActivity(i);
+                return true;
+
+            case R.id.itemAcerca:
+                Intent intent = new Intent(getContext(), acerca_de.class);
+                startActivityForResult(intent,0);
+                return true;
+
+            case R.id.itemLogout :
+                logout();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return true;
+        //return true;
     }
 
     private void logout() {
         auth.logout();
         Intent i =  new Intent(getContext(), MainActivity.class);
-        i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK );
+        //i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK| Intent.FLAG_ACTIVITY_NEW_TASK );
         startActivity(i);
     }
 }

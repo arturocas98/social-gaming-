@@ -8,10 +8,10 @@
         android:id="@+id/item_filters"
         android:icon="@drawable/filter"
         android:title="filtros" />
-    <item
+    <!--<item
         android:id="@+id/item_chat"
         android:icon="@drawable/chat"
-        android:title="chats" />
+        android:title="chats" />-->
     <item
         android:id="@+id/item_profile"
         android:icon="@drawable/person"

@@ -3,13 +3,20 @@ package Activities;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.core.content.FileProvider;
 
 import android.app.AlertDialog;
+import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -62,6 +69,7 @@ public class post extends AppCompatActivity {
     String description = "";
     PostProvider postProvider;
     AuthProvider auth;
+
     AlertDialog mDialog;
     CircleImageView mCircleImageBack;
 
@@ -82,6 +90,8 @@ public class post extends AppCompatActivity {
     String mAbsolutePhotoPath2;
     String mPhotoPath2;
     File mPhotoFile2;
+    private final static int NOTIFICACION_ID = 0;
+    private final static String CHANNEL_ID = "NOTIFICACION";
 
 
     @Override
@@ -240,6 +250,8 @@ public class post extends AppCompatActivity {
                                                     public void onComplete(@NonNull Task<Void> taskSave) {
                                                         mDialog.dismiss();
                                                         if (taskSave.isSuccessful()) {
+                                                            createNotificationChannel();
+                                                            createNotification();
                                                             clearForm();
                                                             Toast.makeText(post.this, "La informacion se almaceno correctamente", Toast.LENGTH_SHORT).show();
                                                         }
@@ -266,6 +278,32 @@ public class post extends AppCompatActivity {
                 }
             }
         });
+    }
+
+
+    private void createNotification(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(getApplicationContext(), CHANNEL_ID);
+        builder.setSmallIcon(R.drawable.ic_message);
+        builder.setContentTitle("Creación de publicación");
+
+        builder.setContentText("El usuario:"+""+auth.getNombre()+",ha realizado una publicación");
+        builder.setColor(Color.BLUE);
+        builder.setPriority(NotificationCompat.PRIORITY_DEFAULT);
+        builder.setLights(Color.MAGENTA, 1000, 1000);
+        builder.setVibrate(new long[]{1000,1000,1000,1000,1000});
+        builder.setDefaults(Notification.DEFAULT_SOUND);
+
+        NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(getApplicationContext());
+        notificationManagerCompat.notify(NOTIFICACION_ID, builder.build());
+    }
+
+    private void createNotificationChannel(){
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            CharSequence name = "Noticacion";
+            NotificationChannel notificationChannel = new NotificationChannel(CHANNEL_ID, name, NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+            notificationManager.createNotificationChannel(notificationChannel);
+        }
     }
 
     //metodo para abrir la galeria del telefono

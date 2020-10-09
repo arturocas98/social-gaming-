@@ -23,22 +23,35 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.example.social_gaming.R;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.Date;
 
 import Models.Post;
+import Providers.UserProvider;
 
 public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.ViewHolder> {
 
     Context context;
-    //UsersProvider mUsersProvider;
+    UserProvider mUsersProvider;
     //LikesProvider mLikesProvider;
     //AuthProvider mAuthProvider;
     TextView mTextViewNumberFilter;
     ListenerRegistration mListener;
+    TextView txt_number_filter;
 
     public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context) {
         super(options);
         this.context = context;
+        mUsersProvider = new UserProvider();
+        //mLikesProvider = new LikesProvider();
+        //mAuthProvider = new AuthProvider();
+    }
+
+    public PostsAdapter(FirestoreRecyclerOptions<Post> options, Context context, TextView textView) {
+        super(options);
+        this.context = context;
+        txt_number_filter = textView;
         //mUsersProvider = new UsersProvider();
         //mLikesProvider = new LikesProvider();
         //mAuthProvider = new AuthProvider();
@@ -63,7 +76,10 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             int numberFilter = getSnapshots().size();
             mTextViewNumberFilter.setText(String.valueOf(numberFilter));
         }*/
-
+        if (txt_number_filter != null){
+            int number_filter = getSnapshots().size();
+            txt_number_filter.setText(String.valueOf(number_filter));
+        }
         holder.textViewTitle.setText(post.getTitle().toUpperCase());
         holder.textViewDescription.setText(post.getDescription());
         if (post.getImage1() != null) {
@@ -94,6 +110,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
         getUserInfo(post.getIdUser(), holder);
         getNumberLikesByPost(postId, holder);
         checkIfExistLike(postId, mAuthProvider.getUid(), holder);*/
+        //getUserInfo(post.getUser_id(), holder);
     }
 
 
@@ -144,7 +161,7 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
 
     }*/
 
-    /*private void getUserInfo(String idUser, final ViewHolder holder) {
+    private void getUserInfo(String idUser, final ViewHolder holder) {
         mUsersProvider.getUser(idUser).addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -157,7 +174,9 @@ public class PostsAdapter extends FirestoreRecyclerAdapter<Post, PostsAdapter.Vi
             }
         });
 
-    }*/
+    }
+
+
 
     public ListenerRegistration getListener() {
         return mListener;

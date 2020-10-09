@@ -29,4 +29,8 @@ public class PostProvider {
     public Task<Void> delete(String id) {
         return collection.document(id).delete();
     }
+
+    public Query getPostByCategoryAndTimestamp(String category) {
+        return collection.whereEqualTo("category", category).orderBy("timestamp", Query.Direction.DESCENDING);
+    }
 }

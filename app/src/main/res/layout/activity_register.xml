@@ -70,7 +70,7 @@
                     android:id="@+id/txt_user_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Nombre de usuario"
+                    android:hint="@string/username"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -103,7 +103,7 @@
                     android:id="@+id/txt_email_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Correo electronico"
+                    android:hint="@string/correo"
                     android:inputType="textEmailAddress" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -135,7 +135,7 @@
                     android:id="@+id/txt_phone_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Telefono"
+                    android:hint="@string/telefono"
                     android:inputType="numberSigned" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -167,7 +167,7 @@
                     android:id="@+id/txt_password_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Contraseña"
+                    android:hint="@string/password"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>
@@ -200,7 +200,7 @@
                     android:id="@+id/txt_conf_password_reg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Confirmar Contraseña"
+                    android:hint="@string/con_password"
                     android:inputType="textPassword" />
 
             </com.google.android.material.textfield.TextInputLayout>

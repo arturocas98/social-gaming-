@@ -14,9 +14,9 @@
         <ImageView
             android:id="@+id/imageViewPostCard"
             android:layout_width="match_parent"
-            android:layout_height="225dp"
+            android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:padding="80dp"
+
             android:src="@drawable/ic_upload_image"
             />
 
